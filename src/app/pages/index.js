@@ -22,6 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 export default function CryptoTabs() {
   const [text, setText] = useState("");
   const [key, setKey] = useState("");
+  const [decryptKey, setDecryptKey] = useState("");
   const [encryptedText, setEncryptedText] = useState("");
   const [decryptedText, setDecryptedText] = useState("");
   const [aesIv] = useState(crypto.getRandomValues(new Uint8Array(12)));
@@ -109,7 +110,7 @@ export default function CryptoTabs() {
       </TabsList>
 
       <TabsContent value="encrypt">
-        <Card >
+        <Card>
           <CardHeader>
             <CardTitle>Encrypt</CardTitle>
             <CardDescription>Enter text and a key.</CardDescription>
@@ -129,11 +130,8 @@ export default function CryptoTabs() {
               value={key}
               onChange={(e) => setKey(e.target.value)}
             />
-            <br />
-            <>
-                <Label className="mt-3">Encrypted Output:</Label>
-                <Textarea readOnly value={encryptedText} />
-            </>
+            <Label className="mt-3">Encrypted Output:</Label>
+            <Textarea readOnly value={encryptedText} />
           </CardContent>
           <CardFooter className="flex flex-col">
             <Button onClick={encryptData}>Encrypt</Button>
@@ -157,15 +155,12 @@ export default function CryptoTabs() {
             <Label>Key</Label>
             <Input
               type="password"
-              placeholder="Enter key"
-              value={decryptData}
-              onChange={(e) => setKey(e.target.value)}
+              placeholder="Enter decryption key"
+              value={decryptKey}
+              onChange={(e) => setDecryptKey(e.target.value)}
             />
-
-            <>
-              <Label className="mt-3">Decrypted Output:</Label>
-              <Textarea readOnly value={decryptedText} />
-            </>
+            <Label className="mt-3">Decrypted Output:</Label>
+            <Textarea readOnly value={decryptedText} />
           </CardContent>
           <CardFooter className="flex flex-col">
             <Button onClick={decryptData}>Decrypt</Button>
