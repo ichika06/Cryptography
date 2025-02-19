@@ -74,20 +74,30 @@ export default function CryptoTabs() {
   }
 
   async function decryptData() {
-    if (!key) return alert("Please enter a key!");
-    const aesKey = await getAesKey(key);
+    if (!decryptKey) {
+      alert("Please enter a decryption key!");
+      return;
+    }
+    if (!encryptedText.trim()) {
+      alert("Please enter text to decrypt!");
+      return;
+    }
 
     try {
+      const aesKey = await getAesKey(decryptKey);
       const decodedData = atob(encryptedText).split("").map((char) => char.charCodeAt(0));
+      
       const aesDecrypted = await crypto.subtle.decrypt(
         { name: "AES-GCM", iv: aesIv },
         aesKey,
         new Uint8Array(decodedData)
       );
 
-      setDecryptedText(xorEncrypt(new TextDecoder().decode(aesDecrypted), key));
+      const decryptedResult = xorEncrypt(new TextDecoder().decode(aesDecrypted), decryptKey);
+      setDecryptedText(decryptedResult);
     } catch (error) {
-      alert("Wrong key!");
+      alert("Decryption failed.");
+      setDecryptedText("");
     }
   }
 
@@ -148,7 +158,7 @@ export default function CryptoTabs() {
             <Input
               type="password"
               placeholder="Enter key"
-              value={key}
+              value={decryptData}
               onChange={(e) => setKey(e.target.value)}
             />
 
