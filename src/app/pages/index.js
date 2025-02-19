@@ -125,7 +125,7 @@ export default function CryptoTabs() {
             />
             <Label>Key</Label>
             <Input
-              type="password"
+              type="text"
               placeholder="Enter key"
               value={key}
               onChange={(e) => setKey(e.target.value)}
